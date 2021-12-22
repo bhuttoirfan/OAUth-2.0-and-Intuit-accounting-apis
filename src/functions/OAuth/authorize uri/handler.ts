@@ -17,7 +17,6 @@ const authorize_uri: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     
 
     const res = {
-      statusCode: 301,
       headers: {
         location: auth_uri
       }

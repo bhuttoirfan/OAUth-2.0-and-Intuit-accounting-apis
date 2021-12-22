@@ -1,6 +1,9 @@
 export default {
   type: "object",
   properties: {
+    code: {type: 'string'},
+    state: {type: 'string'},
+    realmId: {type: 'string'}
   },
-  required: []
+  required: ['code', 'state', 'realmId']
 } as const;

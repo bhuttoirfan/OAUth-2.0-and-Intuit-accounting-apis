@@ -42826,28 +42826,6 @@ var middyfy = (handler) => {
   return (0, import_core.default)(handler).use((0, import_http_json_body_parser.default)());
 };
 
-// src/libs/dynamodb.ts
-var AWS = __toModule(require("aws-sdk"));
-var dynamo = new AWS.DynamoDB.DocumentClient({
-  region: "localhost",
-  endpoint: "http://localhost:8000"
-});
-var DynamoDB2 = {
-  async saveData(query) {
-    await dynamo.put(query).promise();
-  },
-  async scanData(query) {
-    try {
-      return await dynamo.scan(query).promise();
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  async updateData(query) {
-    await dynamo.update(query).promise();
-  }
-};
-
 // src/libs/oauth.ts
 var import_intuit_oauth = __toModule(require_OAuthClient());
 var oauth_client = new import_intuit_oauth.default({
@@ -42860,23 +42838,10 @@ var oauth_client = new import_intuit_oauth.default({
 // src/functions/OAuth/refresh token/handler.ts
 var get_refresh_token = async (event) => {
   try {
-    const args = {
-      TableName: "quickbook"
-    };
-    const data = await DynamoDB2.scanData(args);
-    const realmId = data.Items[0].realmId;
-    const refresh_token = data.Items[0].refreshToken;
+    const data = event.body;
+    const refresh_token = data.refreshToken;
     const auth_token_info = await oauth_client.refreshUsingToken(refresh_token);
     const a_token = auth_token_info.token.access_token;
-    const query = {
-      TableName: "quickbook",
-      Key: { realmId },
-      UpdateExpression: "set authToken=:at",
-      ExpressionAttributeValues: {
-        ":at": a_token
-      }
-    };
-    await DynamoDB2.updateData(query);
     return formatJSONResponse({
       msg: "Access token updated",
       a_token

@@ -3,7 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import {
   authorizeUri, saveData, createToken, refreshToken,
   createAccount, queryByName, updateAccount, readAccount,
-  getCompanyInfo, readCompanyByID
+  getCompanyInfo, readCompanyByID, sparseUpdateCompanyInfo
 } from './src/functions/index';
 
 const serverlessConfiguration: AWS = {
@@ -27,7 +27,7 @@ const serverlessConfiguration: AWS = {
   functions: {
     authorizeUri, saveData, createToken, refreshToken,
     createAccount, queryByName, updateAccount, readAccount,
-    getCompanyInfo, readCompanyByID
+    getCompanyInfo, readCompanyByID, sparseUpdateCompanyInfo
   },
   package: { individually: true },
   custom: {

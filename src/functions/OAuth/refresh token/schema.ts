@@ -1,6 +1,7 @@
 export default {
   type: "object",
   properties: {
+    refreshToken: {type: 'string'}
   },
-  required: []
+  required: ['refreshToken']
 } as const;

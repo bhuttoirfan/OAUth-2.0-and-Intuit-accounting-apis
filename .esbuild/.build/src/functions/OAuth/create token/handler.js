@@ -42860,13 +42860,10 @@ var oauth_client = new import_intuit_oauth.default({
 // src/functions/OAuth/create token/handler.ts
 var create_token = async (event) => {
   try {
-    const args = {
-      TableName: "quickbook"
-    };
-    const data = await DynamoDB2.scanData(args);
-    const realmId = data.Items[0].realmId;
-    const code = data.Items[0].code;
-    const state = data.Items[0].state;
+    const data = event.body;
+    const realmId = data.realmId;
+    const code = data.code;
+    const state = data.state;
     const url = `code=${code}&state=${state}&realmId=${realmId}`;
     const auth_token_info = await oauth_client.createToken(url);
     const token = auth_token_info.getJson();

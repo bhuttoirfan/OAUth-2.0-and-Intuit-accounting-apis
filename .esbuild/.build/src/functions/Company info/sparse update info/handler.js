@@ -3150,7 +3150,7 @@ var require_axios2 = __commonJS({
   }
 });
 
-// src/functions/Company info/read company info/handler.ts
+// src/functions/Company info/sparse update info/handler.ts
 __export(exports, {
   main: () => main
 });
@@ -3170,19 +3170,22 @@ var middyfy = (handler) => {
   return (0, import_core.default)(handler).use((0, import_http_json_body_parser.default)());
 };
 
-// src/functions/Company info/read company info/handler.ts
+// src/functions/Company info/sparse update info/handler.ts
 var import_axios = __toModule(require_axios2());
-var query_account = async (event) => {
+var sparse_update = async (event) => {
   try {
     const body = event.body;
-    const id = body.id;
     const access_token = body.accessToken;
     const realm_id = body.realmId;
-    const response = await import_axios.default.get(`https://sandbox-quickbooks.api.intuit.com/v3/company/${realm_id}/companyinfo/${id}?minorversion=40`, {
+    delete body.accessToken;
+    delete body.realmId;
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in sparse");
+    const response = await import_axios.default.post(`https://sandbox-quickbooks.api.intuit.com/v3/company/${realm_id}/companyinfo`, body, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
     });
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in sparse");
     return formatJSONResponse({
       message: response.data
     });
@@ -3192,7 +3195,7 @@ var query_account = async (event) => {
     });
   }
 };
-var main = middyfy(query_account);
+var main = middyfy(sparse_update);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   main

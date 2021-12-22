@@ -7,27 +7,22 @@ import { oauth_client } from '@libs/oauth';
 
 const get_refresh_token: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try{
-    const args = {
-      TableName:"quickbook"
-    }
-    
-    const data = await DynamoDB.scanData(args);
-    const realmId = data.Items[0].realmId;
-    const refresh_token = data.Items[0].refreshToken;
+    const data = event.body;
+    const refresh_token = data.refreshToken;
 
     const auth_token_info = await oauth_client.refreshUsingToken(refresh_token);
     const a_token = auth_token_info.token.access_token;
-
-    const query = {
-      TableName: "quickbook",
-      Key: {realmId},
-      UpdateExpression: "set authToken=:at",
-      ExpressionAttributeValues: {
-        ":at": a_token
-      }
-    }
-
-    await DynamoDB.updateData(query);
+    
+    // const realmId = data.realmId;
+    // const query = {
+    //   TableName: "quickbook",
+    //   Key: {realmId},
+    //   UpdateExpression: "set authToken=:at",
+    //   ExpressionAttributeValues: {
+    //     ":at": a_token
+    //   }
+    // }
+    // await DynamoDB.updateData(query);
 
     return formatJSONResponse({
       msg: "Access token updated",

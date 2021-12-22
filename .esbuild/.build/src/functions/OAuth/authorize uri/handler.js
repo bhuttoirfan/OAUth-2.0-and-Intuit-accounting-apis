@@ -42965,7 +42965,6 @@ var authorize_uri = async (event) => {
       state: "testState"
     });
     const res = {
-      statusCode: 301,
       headers: {
         location: auth_uri
       }

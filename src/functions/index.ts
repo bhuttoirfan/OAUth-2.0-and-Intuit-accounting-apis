@@ -8,3 +8,4 @@ export { default as updateAccount } from './Account/update account';
 export { default as readAccount } from './Account/read an account';
 export { default as getCompanyInfo } from './Company info/get company info';
 export { default as readCompanyByID } from './Company info/read company info';
+export { default as sparseUpdateCompanyInfo } from './Company info/sparse update info';
