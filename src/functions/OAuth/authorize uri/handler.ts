@@ -22,8 +22,9 @@ const authorize_uri: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
       }
     }
 
-    opn(auth_uri)
     // Redirect the authUri
+    opn(auth_uri)
+    
     return formatJSONResponse({
       message: res
     });
