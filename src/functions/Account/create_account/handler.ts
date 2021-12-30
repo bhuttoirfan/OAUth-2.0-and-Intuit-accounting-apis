@@ -2,7 +2,8 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 import schema from './schema';
-import { oauth_client } from '@libs/oauth';
+// import { oauth_client } from '@libs/oauth';
+import axios from 'axios';
 
 const create_account: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try{
@@ -16,18 +17,27 @@ const create_account: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
       Name,
       AccountType
     }
+    
+    // const response = await oauth_client.makeApiCall({
+    //   url: `https://sandbox-quickbooks.api.intuit.com/v3/company/${realmId}/account?minorversion=63`,
+    //   method: 'POST',
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   },
+    //   body
+    // });
 
-    const response = await oauth_client.makeApiCall({
-      url: `https://sandbox-quickbooks.api.intuit.com/v3/company/${realmId}/account?minorversion=63`,
-      method: 'POST',
+    const response = await axios.post(`https://sandbox-quickbooks.api.intuit.com/v3/company/${realmId}/account?minorversion=63`,
+    body,
+    {
       headers: {
         Authorization: `Bearer ${token}`
-      },
-      body
-    });
+      }
+    }
+    );
 
     return formatJSONResponse({
-      message: response.json
+      message: response.data
     });
   }catch(err) {
     return formatJSONResponse({

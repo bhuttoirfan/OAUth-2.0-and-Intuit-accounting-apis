@@ -6,7 +6,7 @@ import opn from "opn";
 
 import { oauth_client } from '@libs/oauth';
 
-const authorize_uri: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const authorize_uri: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
   try{
     const OAuthClient = require('intuit-oauth');
     // AuthorizationUri
@@ -16,17 +16,17 @@ const authorize_uri: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     }); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
     
 
-    const res = {
-      headers: {
-        location: auth_uri
-      }
-    }
+    // const res = {
+    //   headers: {
+    //     location: auth_uri
+    //   }
+    // }
 
     // Redirect the authUri
     opn(auth_uri)
     
     return formatJSONResponse({
-      message: res
+      message: "Authorizing"
     });
   }catch(err) {
     return formatJSONResponse({
