@@ -12,5 +12,4 @@ test("create account",async () => {
     const status_code = response.statusCode;
 
     expect(status_code).toBe(200);
-
 });
